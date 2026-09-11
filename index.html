@@ -352,6 +352,46 @@
         padding: 11px !important;
       }
 
+      /* WORD LIST: keep the text column wide and let actions wrap cleanly. */
+      #wordListContainer {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      #wordListContainer > div {
+        min-width: 0 !important;
+      }
+
+      #wordListContainer > div:not(:has(input)) {
+        flex-wrap: wrap !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+
+      #wordListContainer > div:not(:has(input)) > div:first-child {
+        flex: 1 1 0% !important;
+        width: auto !important;
+        min-width: 0 !important;
+      }
+
+      #wordListContainer > div:not(:has(input)) > div:first-child > div:last-child {
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+
+      #wordListContainer > div:not(:has(input)) > div:last-child {
+        flex: 0 0 auto !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+      }
+
+      #wordListContainer span,
+      #wordListContainer p {
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+      }
+
       /* Keep long German/English text from forcing horizontal scrolling. */
       #appContainer *, #conjugationModal *, #importModal * {
         overflow-wrap: anywhere;
@@ -369,6 +409,12 @@
       #appContainer .w-full.sm\:w-64 {
         width: 100% !important;
       }
+      #wordListContainer .font-bold,
+      #wordListContainer .font-semibold {
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+
     }
 
 
@@ -2374,6 +2420,8 @@
         conjCurrentVerbIndex++;
       }
 
+      // renderConjugationQuestion() already shows the summary when all
+      // verbs are complete, so the final subject now exits cleanly.
       renderConjugationQuestion();
     }
 
@@ -2503,6 +2551,35 @@
     function renderTestQuestion() {
       clearSpeedTimer();
       isWaitingForNext = false;
+
+      // Every finite game mode reaches this function after the final card.
+      // Check the boundary here so MC / Audio / Fill don't try to render
+      // an undefined word and get stuck on the last card.
+      if (currentIndex >= testWords.length) {
+        if (testMode === 'mastery') {
+          const failedWords = testWords.filter(w => (w.box || 1) === 1);
+
+          if (failedWords.length > 0) {
+            testWords = [...failedWords].sort(() => 0.5 - Math.random());
+            currentIndex = 0;
+            renderTestQuestion();
+            return;
+          }
+
+          renderTestSummary();
+          return;
+        }
+
+        if (testMode === 'pure_endless') {
+          testWords = [...testWords].sort(() => 0.5 - Math.random());
+          currentIndex = 0;
+          renderTestQuestion();
+          return;
+        }
+
+        renderTestSummary();
+        return;
+      }
 
       if (testGameMode === 'mc') {
         renderMultipleChoiceQuestion();
@@ -2839,25 +2916,6 @@
     }
 
     function renderFlashcardQuestion() {
-      if (currentIndex >= testWords.length) {
-        if (testMode === 'mastery') {
-          const failedWords = testWords.filter(w => w.box === 1);
-          if (failedWords.length > 0) {
-            testWords = [...failedWords].sort(() => 0.5 - Math.random());
-            currentIndex = 0;
-            renderFlashcardQuestion();
-            return;
-          }
-        } else if (testMode === 'pure_endless') {
-          testWords = [...testWords].sort(() => 0.5 - Math.random());
-          currentIndex = 0;
-          renderFlashcardQuestion();
-          return;
-        }
-        renderTestSummary();
-        return;
-      }
-
       const currentWord = testWords[currentIndex];
       isCardFlipped = false;
 
@@ -3019,7 +3077,9 @@
     }
 
     function handleNextQuestion() {
+      if (!isWaitingForNext) return;
       playSound('click');
+      isWaitingForNext = false;
       currentIndex++;
       renderTestQuestion();
     }
