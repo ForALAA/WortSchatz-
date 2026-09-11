@@ -1,0 +1,20 @@
+{
+  "name": "WortSchatz! German Learning",
+  "short_name": "WortSchatz!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fef3c7",
+  "theme_color": "#fde047",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/192/brain.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/color/512/brain.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
