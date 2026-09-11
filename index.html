@@ -586,6 +586,49 @@
     }
 
     @media (max-width: 640px) {
+      /* Word/deck rows: content gets the full phone width; action buttons
+         live on their own row instead of squeezing the word column. */
+      #wordListContainer .word-list-row {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      #wordListContainer .word-list-row > div:first-child {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        flex: none !important;
+      }
+
+      #wordListContainer .word-list-row > div:first-child > div:last-child {
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+      }
+
+      #wordListContainer .word-list-row > div:last-child {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        justify-content: flex-end !important;
+      }
+
+      #wordListContainer .word-list-row p {
+        width: 100% !important;
+        max-width: 100% !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+
+      #wordListContainer .word-list-row span {
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+
       html.dark-mode .cartoon-card {
         box-shadow: 3px 3px 0 #020617 !important;
       }
@@ -1816,16 +1859,16 @@
         const showTableBtn = isVerbsDeck && isVerbWord(w, selectedCategory);
 
         return `
-          <div class="word-list-row p-3 sm:p-3.5 flex items-center justify-between hover:bg-amber-50/50 border-b-2 border-slate-100 last:border-0 transition-colors">
-            <div class="flex items-center gap-2 pr-2">
+          <div class="word-list-row p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center gap-2 hover:bg-amber-50/50 border-b-2 border-slate-100 last:border-0 transition-colors">
+            <div class="flex items-start gap-2 w-full sm:w-auto sm:flex-1 min-w-0 pr-0 sm:pr-2">
               <button onclick="toggleStar('${w.id}', event)" class="text-lg hover:scale-110 transition-transform" title="Bookmark Card">
                 ${w.starred ? '⭐' : '☆'}
               </button>
               <button onclick="speakGerman('${w.german.replace(/'/g, "\\'")}')" class="cartoon-btn bg-amber-300 hover:bg-amber-400 px-2 rounded-xl text-xs shrink-0" title="Listen">
                 🔊
               </button>
-              <div>
-                <div class="flex items-center gap-1.5 flex-wrap">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap min-w-0">
                   <span class="font-bold text-slate-800 text-sm sm:text-base">${w.german}</span>
                   <span class="text-slate-500 font-semibold text-xs sm:text-sm">(${w.english})</span>
                 </div>
@@ -1836,7 +1879,7 @@
                 ${w.example ? `<p class="text-xs text-indigo-600 font-semibold italic mt-0.5">💬 "${w.example}"</p>` : ''}
               </div>
             </div>
-            <div class="flex items-center gap-1.5 shrink-0">
+            <div class="flex items-center justify-end gap-1.5 w-full sm:w-auto shrink-0 flex-wrap">
               ${showTableBtn ? `
                 <button onclick="openConjugationModal('${w.id}')" class="cartoon-btn bg-teal-200 hover:bg-teal-300 text-slate-900 px-2.5 rounded-xl text-xs" title="View/Customize Conjugations">
                   📊 Table
