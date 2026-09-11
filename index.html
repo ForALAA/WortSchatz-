@@ -415,6 +415,50 @@
         overflow-wrap: break-word !important;
       }
 
+      /* Each word gets the full phone width. Actions go underneath instead
+         of stealing half of the text column (especially for verb decks). */
+      #wordListContainer .word-list-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        align-items: flex-start !important;
+      }
+
+      #wordListContainer .word-list-row > div:first-child {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      #wordListContainer .word-list-row > div:first-child > div:last-child {
+        flex: 1 1 0% !important;
+        min-width: 0 !important;
+        width: auto !important;
+      }
+
+      #wordListContainer .word-list-row > div:last-child {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        justify-content: flex-end !important;
+        margin-top: 6px !important;
+        padding-left: 0 !important;
+      }
+
+      /* Keep verb examples readable instead of one character per line. */
+      #wordListContainer .word-list-row p {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+
     }
 
 
@@ -1772,7 +1816,7 @@
         const showTableBtn = isVerbsDeck && isVerbWord(w, selectedCategory);
 
         return `
-          <div class="p-3 sm:p-3.5 flex items-center justify-between hover:bg-amber-50/50 border-b-2 border-slate-100 last:border-0 transition-colors">
+          <div class="word-list-row p-3 sm:p-3.5 flex items-center justify-between hover:bg-amber-50/50 border-b-2 border-slate-100 last:border-0 transition-colors">
             <div class="flex items-center gap-2 pr-2">
               <button onclick="toggleStar('${w.id}', event)" class="text-lg hover:scale-110 transition-transform" title="Bookmark Card">
                 ${w.starred ? '⭐' : '☆'}
