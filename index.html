@@ -119,6 +119,231 @@
     .animate-shake {
       animation: gentleShake 0.25s ease-in-out;
     }
+
+
+    /* =========================================================
+       PHONE / MOBILE LAYOUT
+       Keeps the desktop design intact while making every view,
+       card and action comfortable on narrow touch screens.
+       ========================================================= */
+    html, body { overflow-x: hidden; }
+
+    @media (max-width: 767px) {
+      body {
+        padding: 6px !important;
+        min-height: 100dvh;
+        justify-content: flex-start;
+      }
+
+      body > .w-full.max-w-2xl {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        border-width: 3px;
+        border-radius: 18px;
+        box-shadow: 3px 3px 0 #1e293b;
+      }
+
+      header {
+        padding: 10px !important;
+        gap: 9px !important;
+      }
+
+      header > div:first-child {
+        width: 100% !important;
+        gap: 8px !important;
+      }
+
+      header h1 {
+        font-size: 1.35rem !important;
+      }
+
+      header p {
+        font-size: .68rem !important;
+      }
+
+      /* Stats become a clean 2x2 grid instead of wrapping unpredictably. */
+      header > div:last-child {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px !important;
+        justify-content: stretch !important;
+      }
+
+      header > div:last-child > div,
+      header > div:last-child > button {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      header > div:last-child > div {
+        padding: 6px 7px !important;
+      }
+
+      header > div:last-child > div span.text-lg {
+        font-size: 1rem !important;
+      }
+
+      header > div:last-child > div .text-\[10px\] {
+        font-size: 8px !important;
+      }
+
+      header > div:last-child > div .text-xs {
+        font-size: 10px !important;
+      }
+
+      #homeBtn {
+        min-height: 42px;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+
+      #appContainer {
+        padding: 12px !important;
+      }
+
+      /* Prevent action rows from overflowing the phone width. */
+      .cartoon-btn {
+        min-height: 46px;
+        max-width: 100%;
+        white-space: normal;
+        line-height: 1.15;
+      }
+
+      /* Workspace/deck card actions stack neatly. */
+      #workspacesGrid > .draggable-item > div:first-child > div:last-child,
+      #decksGrid > .draggable-item > div:first-child > div:last-child {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        gap: 7px !important;
+      }
+
+      #workspacesGrid > .draggable-item > div:first-child > div:last-child .cartoon-btn:first-child,
+      #decksGrid > .draggable-item > div:first-child > div:last-child .cartoon-btn:first-child {
+        width: 100%;
+      }
+
+      /* Add Workspace / Add Deck forms become vertical. */
+      form.pt-3.border-t-4 {
+        flex-direction: column !important;
+      }
+
+      form.pt-3.border-t-4 .cartoon-input,
+      form.pt-3.border-t-4 .cartoon-btn {
+        width: 100% !important;
+        flex: none !important;
+      }
+
+      /* Page headers: buttons get their own full-width row. */
+      #appContainer .flex.flex-col.sm\:flex-row.justify-between {
+        width: 100%;
+      }
+
+      /* Generic two-button action rows used by summaries and modals. */
+      .flex.gap-2\.5.justify-center {
+        flex-direction: column !important;
+        width: 100%;
+      }
+
+      .flex.gap-2\.5.justify-center > .cartoon-btn {
+        width: 100% !important;
+      }
+
+      /* Conjugation/import modal footer buttons stack on phones. */
+      #conjugationModal .flex.gap-2.shrink-0,
+      #importModal .flex.gap-2.shrink-0 {
+        flex-direction: column !important;
+      }
+
+      #conjugationModal .flex.gap-2.shrink-0 > .cartoon-btn,
+      #importModal .flex.gap-2.shrink-0 > .cartoon-btn {
+        width: 100% !important;
+        flex: none !important;
+      }
+
+      /* Modal cards use more of the phone viewport. */
+      #conjugationModal,
+      #importModal {
+        padding: 7px !important;
+      }
+
+      #conjugationModal > .cartoon-card,
+      #importModal > .cartoon-card {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: 94dvh !important;
+        padding: 12px !important;
+        border-radius: 16px;
+      }
+
+      #conjugationModal .border-b-3,
+      #importModal .border-b-3 {
+        gap: 8px;
+      }
+
+      /* Conjugation rows: label/speaker on top, input underneath. */
+      #modalTableContent > div {
+        flex-wrap: wrap !important;
+        gap: 7px !important;
+        padding: 8px !important;
+      }
+
+      #modalTableContent > div > div:first-child {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+      }
+
+      #modalTableContent > div > input {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 0 !important;
+      }
+
+      /* Translation direction controls remain equal-width and tappable. */
+      #btnDeEn, #btnEnDe {
+        min-height: 48px;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+      }
+
+      /* Revising controls are easier to hit and don't squeeze together. */
+      .grid.grid-cols-2.gap-3 > .cartoon-btn {
+        min-height: 54px;
+        padding: 10px 7px !important;
+      }
+
+      /* Multiple-choice answers use full-width touch targets. */
+      #optionsGrid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }
+
+      #optionsGrid .mc-opt-btn {
+        min-height: 52px;
+        padding: 11px !important;
+      }
+
+      /* Keep long German/English text from forcing horizontal scrolling. */
+      #appContainer *, #conjugationModal *, #importModal * {
+        overflow-wrap: anywhere;
+      }
+
+      input, textarea, select, button {
+        font-size: 16px !important;
+      }
+
+      textarea {
+        min-height: 150px;
+      }
+
+      /* Search bars and small controls stay inside the viewport. */
+      #appContainer .w-full.sm\:w-64 {
+        width: 100% !important;
+      }
+    }
+
   </style>
 </head>
 <body class="bg-amber-100/80 text-slate-800 p-3 sm:p-8 min-h-screen flex flex-col justify-center items-center">
